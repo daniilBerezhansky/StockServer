@@ -16,12 +16,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 import java.security.Principal;
 
-/**
- * Controller for {@link User}'s pages.
- *
- * @author Eugene Suleimanov
- * @version 1.0
- */
+
 
 @Controller
 public class UserController {
