@@ -1,6 +1,8 @@
 package net.stock.server.controller;
 
+import net.stock.server.model.Category;
 import net.stock.server.model.User;
+import net.stock.server.service.CategoryService;
 import net.stock.server.service.SecurityService;
 import net.stock.server.service.UserService;
 import net.stock.server.validator.UserValidator;
@@ -26,6 +28,9 @@ public class UserController {
 
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private CategoryService categoryService;
 
     @Autowired
     private SecurityService securityService;
@@ -88,6 +93,12 @@ public class UserController {
         if(principal != null){
             model.addAttribute("userprof",getUser(principal.getName()));
         }
+            model.addAttribute("categoryForm",new Category());
+        return "user";
+    }
+    @RequestMapping(value = "/user", method = RequestMethod.POST)
+    public String registration(@ModelAttribute("categoryForm") Category categoryForm, BindingResult bindingResult, Model model) {
+        categoryService.save(categoryForm);
         return "user";
     }
 

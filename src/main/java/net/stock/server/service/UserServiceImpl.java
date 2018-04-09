@@ -1,7 +1,7 @@
 package net.stock.server.service;
 
-import net.stock.server.dao.RoleDao;
-import net.stock.server.dao.UserDao;
+import net.stock.server.repository.RoleRepository;
+import net.stock.server.repository.UserRepository;
 import net.stock.server.model.Role;
 import net.stock.server.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,22 +10,14 @@ import org.springframework.stereotype.Service;
 
 import java.util.HashSet;
 import java.util.Set;
-
-/**
- * Implementation of {@link UserService} interface.
- *
- * @author Eugene Suleimanov
- * @version 1.0
- */
-
 @Service
 public class UserServiceImpl implements UserService {
 
     @Autowired
-    private UserDao userDao;
+    private UserRepository userRepository;
 
     @Autowired
-    private RoleDao roleDao;
+    private RoleRepository roleRepository;
 
     @Autowired
     private BCryptPasswordEncoder bCryptPasswordEncoder;
@@ -34,13 +26,13 @@ public class UserServiceImpl implements UserService {
     public void save(User user) {
         user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
         Set<Role> roles = new HashSet<>();
-        roles.add(roleDao.getOne(1L));
+        roles.add(roleRepository.getOne(1L));
         user.setRoles(roles);
-        userDao.save(user);
+        userRepository.save(user);
     }
 
     @Override
     public User findByUsername(String username) {
-        return userDao.findByUsername(username);
+        return userRepository.findByUsername(username);
     }
 }

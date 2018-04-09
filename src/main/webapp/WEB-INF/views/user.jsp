@@ -6,29 +6,55 @@
   Time: 17:08
   To change this template use File | Settings | File Templates.
 --%>
+
+<%@ page contentType="text/html;charset=UTF-8" %>
+<%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%--<c:set var="contextPath" value="${pageContext.request.contextPath}"/>--%>
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+
 <html>
 <head>
     <title>User profile</title>
     <link rel="stylesheet" href="${contextPath}/resources/css/user.css">
 </head>
 <body>
+<c:set var="id" value="${userprof.id}"/>
 <div class="navigation">
     <ul class="nav">
-        <li>${pageContext.request.userPrincipal.name}</li>
+        <li>username: ${pageContext.request.userPrincipal.name}</li>
         <li>email: <c:out value="${userprof.email}"/></li>
     </ul>
 </div>
 <div class="content">
-    <form>
-        <input type="checkbox">Food</br>
-        <input type="checkbox">Household items</br>
-        <input type="checkbox">Clothes</br>
-        <input type="checkbox">Appliances</br>
+    <form:form  method="post" modelAttribute="categoryForm">
+
+        <spring:bind path="food">
+            <form:checkbox path="food" ></form:checkbox>Food</br>
+        </spring:bind>
+
+        <spring:bind path="householdItems">
+            <form:checkbox path="householdItems" ></form:checkbox> Household items</br>
+        </spring:bind>
+
+        <spring:bind path="clothes">
+            <form:checkbox path="clothes"></form:checkbox>Clothes</br>
+
+        </spring:bind>
+
+        <spring:bind path="appliances">
+            <form:checkbox path="appliances"></form:checkbox>Appliances</br>
+        </spring:bind>
+
+        <spring:bind path="user_id">
+            <form:hidden path="user_id" value = "${id}"/>
+
+        </spring:bind>
+
         <button type="submit">Submit</button>
-    </form>
+
+    </form:form>
 </div>
-<p>test</p>
+<p>
+</p>
 </body>
 </html>

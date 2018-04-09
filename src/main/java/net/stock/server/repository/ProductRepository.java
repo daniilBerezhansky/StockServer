@@ -1,4 +1,4 @@
-package net.stock.server.dao;
+package net.stock.server.repository;
 
 
 import net.stock.server.model.Product;

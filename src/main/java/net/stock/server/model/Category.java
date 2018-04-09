@@ -1,17 +1,15 @@
 package net.stock.server.model;
 
-import org.hibernate.annotations.GenericGenerator;
-
 import javax.persistence.*;
 
 @Entity
-@Table(name = "")
+@Table(name = "categories")
 public class Category {
     public Category() {
     }
     @Id
-    @GeneratedValue(generator = "increment")
-    @GenericGenerator(name = "increment", strategy = "increment")
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "categories_seq_gen")
+    @SequenceGenerator(name = "categories_seq_gen", sequenceName = "categories_id_seq")
     private long id;
     @Column(name = "food", nullable = false)
     private boolean food;
@@ -21,6 +19,17 @@ public class Category {
     private boolean clothes;
     @Column(name = "appliances", nullable = false)
     private boolean appliances;
+
+    public long getUser_id() {
+        return user_id;
+    }
+
+    public void setUser_id(long user_id) {
+        this.user_id = user_id;
+    }
+
+    @Column(name = "user_id", nullable = false)
+    private long user_id;
 
     public long getId() {
         return id;

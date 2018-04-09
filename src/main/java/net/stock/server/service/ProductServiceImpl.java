@@ -1,7 +1,7 @@
 package net.stock.server.service;
 
 
-import net.stock.server.dao.ProductRepository;
+import net.stock.server.repository.ProductRepository;
 import net.stock.server.event.ProductCreatedEvent;
 import net.stock.server.model.Product;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -44,12 +44,10 @@ public class ProductServiceImpl implements ProductService {
     @Transactional
     public Product save(Product product) {
         final ProductCreatedEvent event = new ProductCreatedEvent(product);
-
         long start = System.currentTimeMillis();
         sendEmail(event);
         //applicationEventPublisher.publishEvent(event);
         long end = System.currentTimeMillis();
-        System.out.println("elapsed time: "+(end-start));
         return personRepository.saveAndFlush(product);
     }
 
@@ -58,13 +56,6 @@ public class ProductServiceImpl implements ProductService {
     }
 
     private void sendEmail(ProductCreatedEvent event){
-        /*Thread thread = new Thread(new Runnable() {
-            @Override
-            public void run() {
-                applicationEventPublisher.publishEvent(event);
-            }
-        });
-        thread.start();*/
         ThreadPoolExecutor executor = new ThreadPoolExecutor(10,
                 10, 1, TimeUnit.SECONDS,
                 new LinkedBlockingQueue<Runnable>());

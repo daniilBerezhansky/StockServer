@@ -1,12 +1,17 @@
 package net.stock.server.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import net.stock.server.model.Category;
 import net.stock.server.model.Product;
+import net.stock.server.model.User;
+import net.stock.server.service.CategoryService;
 import net.stock.server.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.MediaType;
+import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import javax.xml.ws.http.HTTPException;
@@ -22,8 +27,10 @@ public class RestApiController {
     @Autowired
     ProductService service;
 
+    @Autowired
+    CategoryService categoryService;
+
     @RequestMapping(value = "/products", method = RequestMethod.GET)
-    //@ResponseBody
     public List<Product> getAllPersons() {
         List<Product> all = service.getAll();
         return all;
@@ -49,12 +56,6 @@ public class RestApiController {
         return service.getById(personID);
 
     }
-    /*@RequestMapping(value = "/products", method = RequestMethod.POST)
-    public Product savePerson(@RequestBody Product person){
-
-        return service.save(person);
-
-    }*/
     @RequestMapping(value = "/products", method = RequestMethod.POST,consumes = MediaType.ALL_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public Product savePerson(HttpEntity<String> httpEntity){
         String json = httpEntity.getBody().trim().replaceAll("\uFFFD", "");
@@ -73,11 +74,15 @@ public class RestApiController {
         }
         return service.save(product);
     }
+
     @RequestMapping(value = "/products/{id}", method = RequestMethod.DELETE)
     public void deletePerson(@PathVariable("id") long personID){
         service.remove(personID);
 
     }
+
+
+
 
 
 }

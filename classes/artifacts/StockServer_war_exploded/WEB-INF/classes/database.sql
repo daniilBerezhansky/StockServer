@@ -42,9 +42,11 @@ SELECT email FROM users WHERE id > 10;
 ALTER TABLE stock ADD COLUMN  category VARCHAR(255) NOT NULL DEFAULT 'none';
 -------------------------------------
 CREATE TABLE categories(
-  categ_id SERIAL PRIMARY KEY,
+  id SERIAL PRIMARY KEY,
   food BOOLEAN NOT NULL  DEFAULT FALSE ,
-  hausehold_items BOOLEAN NOT NULL  DEFAULT FALSE,
+  household_items BOOLEAN NOT NULL  DEFAULT FALSE,
   clothes BOOLEAN NOT NULL DEFAULT FALSE ,
-  appliances BOOLEAN NOT NULL DEFAULT FALSE
+  appliances BOOLEAN NOT NULL DEFAULT FALSE,
+  user_id INT NOT NULL
 );
+---------------------------------------------
