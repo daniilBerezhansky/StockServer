@@ -1,7 +1,6 @@
 package net.stock.server.model;
 
 
-import org.codehaus.jackson.annotate.JsonProperty;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;

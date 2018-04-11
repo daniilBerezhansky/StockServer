@@ -57,8 +57,8 @@
         $.getJSON(url,
             function (json) {
                 console.log(json)
-                for (var i = 0; i < json.length; i++) {
-                    var date =  new Date(json[i].dateArrival);
+                for (let i = 0; i < json.length; i++) {
+                    let date =  new Date(json[i].dateArrival);
                     $('table').append("<tr>" +
                         "<td>" + json[i].id  + "</td>" +
                         "<td>" + json[i].productName + "</td>" +
@@ -94,7 +94,7 @@
             });
         });
         $('#delBtn').click(function () {
-            var id = $('#id').val();
+            let id = $('#id').val();
             $.ajax({
                 type: 'DELETE',
                 url: url+"/"+id,

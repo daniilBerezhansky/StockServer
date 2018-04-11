@@ -45,8 +45,8 @@
             <form:checkbox path="appliances"></form:checkbox>Appliances</br>
         </spring:bind>
 
-        <spring:bind path="user_id">
-            <form:hidden path="user_id" value = "${id}"/>
+        <spring:bind path="userId">
+            <form:hidden path="userId" value = "${id}"/>
 
         </spring:bind>
 

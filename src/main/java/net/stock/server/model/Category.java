@@ -20,16 +20,8 @@ public class Category {
     @Column(name = "appliances", nullable = false)
     private boolean appliances;
 
-    public long getUser_id() {
-        return user_id;
-    }
-
-    public void setUser_id(long user_id) {
-        this.user_id = user_id;
-    }
-
     @Column(name = "user_id", nullable = false)
-    private long user_id;
+    private long userId;
 
     public long getId() {
         return id;
@@ -37,6 +29,14 @@ public class Category {
 
     public void setId(long id) {
         this.id = id;
+    }
+
+    public long getUserId() {
+        return userId;
+    }
+
+    public void setUserId(long userId) {
+        this.userId = userId;
     }
 
     public boolean isFood() {

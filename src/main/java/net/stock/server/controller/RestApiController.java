@@ -1,17 +1,13 @@
 package net.stock.server.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import net.stock.server.model.Category;
 import net.stock.server.model.Product;
-import net.stock.server.model.User;
 import net.stock.server.service.CategoryService;
 import net.stock.server.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.MediaType;
-import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import javax.xml.ws.http.HTTPException;

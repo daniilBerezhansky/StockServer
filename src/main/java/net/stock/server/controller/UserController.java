@@ -92,13 +92,16 @@ public class UserController {
         return "user";
     }
     @RequestMapping(value = "/user", method = RequestMethod.POST)
-    public String registration(@ModelAttribute("categoryForm") Category categoryForm, BindingResult bindingResult, Model model) {
+    public String addCategory(@ModelAttribute("categoryForm") Category categoryForm, BindingResult bindingResult, Model model) {
+        Category existing = categoryService.getByUserId(categoryForm.getUserId());
+        if(existing != null) {categoryForm.setId(existing.getId());
+        }
         categoryService.save(categoryForm);
-        return "user";
+     return "redirect:/user";
     }
 
 
-    public User getUser(String username){
+    private User getUser(String username){
         return userService.findByUsername(username);
     }
 }

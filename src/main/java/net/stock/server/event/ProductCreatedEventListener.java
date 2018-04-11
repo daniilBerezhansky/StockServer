@@ -17,9 +17,9 @@ public class ProductCreatedEventListener {
     @Autowired
     private JavaMailSender mailSender;
 
-    List<String> emails = new LinkedList<>();
+    private List<String> emails = new LinkedList<>();
 
-    public List<String> getEmails() {
+    private List<String> getEmails() {
         Connection conn = null;
         try {
             Class.forName("org.postgresql.Driver");
@@ -35,7 +35,8 @@ public class ProductCreatedEventListener {
             }
         }catch(ClassNotFoundException e){
                 e.printStackTrace();
-            } catch(SQLException e){
+            }
+        catch(SQLException e){
                 e.printStackTrace();
             }
             return emails;
@@ -44,13 +45,11 @@ public class ProductCreatedEventListener {
 
     @EventListener
     public void processProductCreatedEvent(ProductCreatedEvent event){
-     /*   System.out.println("================================\n"+
-                            "Event received: " + event.getProduct().toString() +
-                            "\n===============================");*/
+
         //TODO send Email
         SimpleMailMessage email = new SimpleMailMessage();
         email.setSubject("Stock");
-        email.setText("New product arrived: "+event.getProduct().getProductName().toString());
+        email.setText("New product arrived: "+event.getProduct().getProductName());
         List<String> em = getEmails();
         for(String mail : em){
             email.setTo(mail);

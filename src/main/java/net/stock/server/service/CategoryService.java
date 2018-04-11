@@ -5,5 +5,6 @@ import net.stock.server.model.Category;
 public interface CategoryService {
     Category getById(long categoryID);
     Category save(Category category);
-    void remove(long categoryID);
+    Category getByUserId(long userID);
+    void remove(Category category);
 }

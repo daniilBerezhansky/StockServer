@@ -58,7 +58,7 @@ public class ProductServiceImpl implements ProductService {
     private void sendEmail(ProductCreatedEvent event){
         ThreadPoolExecutor executor = new ThreadPoolExecutor(10,
                 10, 1, TimeUnit.SECONDS,
-                new LinkedBlockingQueue<Runnable>());
+                new LinkedBlockingQueue<>());
         executor.execute(new Runnable() {
             @Override
             public void run() {
