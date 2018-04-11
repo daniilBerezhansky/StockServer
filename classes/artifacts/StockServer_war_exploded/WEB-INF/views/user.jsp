@@ -7,7 +7,7 @@
   To change this template use File | Settings | File Templates.
 --%>
 
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page contentType="text/html;charset=UTF-8" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%--<c:set var="contextPath" value="${pageContext.request.contextPath}"/>--%>
@@ -21,7 +21,7 @@
 <c:set var="id" value="${userprof.id}"/>
 <div class="navigation">
     <ul class="nav">
-        <li>${pageContext.request.userPrincipal.name}</li>
+        <li>username: ${pageContext.request.userPrincipal.name}</li>
         <li>email: <c:out value="${userprof.email}"/></li>
     </ul>
 </div>
@@ -45,8 +45,8 @@
             <form:checkbox path="appliances"></form:checkbox>Appliances</br>
         </spring:bind>
 
-        <spring:bind path="user_id">
-            <form:hidden path="user_id" value = "${id}"/>
+        <spring:bind path="userId">
+            <form:hidden path="userId" value = "${id}"/>
 
         </spring:bind>
 

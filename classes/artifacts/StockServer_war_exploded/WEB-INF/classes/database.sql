@@ -15,13 +15,13 @@ CREATE TABLE roles (
 
 -- Table for mapping user and roles: user_roles
 CREATE TABLE user_roles (
-  user_id INT NOT NULL,
+  userId INT NOT NULL,
   role_id INT NOT NULL,
 
-  FOREIGN KEY (user_id) REFERENCES users (id),
+  FOREIGN KEY (userId) REFERENCES users (id),
   FOREIGN KEY (role_id) REFERENCES roles (id),
 
-  UNIQUE (user_id, role_id)
+  UNIQUE (userId, role_id)
 );
 
 
@@ -47,6 +47,7 @@ CREATE TABLE categories(
   household_items BOOLEAN NOT NULL  DEFAULT FALSE,
   clothes BOOLEAN NOT NULL DEFAULT FALSE ,
   appliances BOOLEAN NOT NULL DEFAULT FALSE,
-  user_id INT NOT NULL
+  userId INT NOT NULL
 );
 ---------------------------------------------
+DROP TABLE categories;
