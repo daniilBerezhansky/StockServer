@@ -19,20 +19,25 @@ public class ProductCreatedEventListener {
 
     private List<String> emails = new LinkedList<>();
 
-    private List<String> getEmails() {
+    private List<String> getEmails(String category) {
         Connection conn = null;
         try {
             Class.forName("org.postgresql.Driver");
             conn = DriverManager
                     .getConnection("jdbc:postgresql://localhost:5432/postgres",
                             "postgres", "dany98dany");
-            String sql = "SELECT email FROM users WHERE id > 10";
+            String sql = String.format("SELECT users.email " +
+                         "FROM users " +
+                         "INNER JOIN categories ON users.id = categories.user_id " +
+                         "WHERE %s = TRUE AND users.id > 10;",category);
             PreparedStatement ps = conn.prepareStatement(sql);
+
             ResultSet rs = ps.executeQuery();
 
             while (rs.next()) {
                 emails.add(rs.getString("email"));
             }
+            System.out.println(emails);
         }catch(ClassNotFoundException e){
                 e.printStackTrace();
             }
@@ -50,7 +55,7 @@ public class ProductCreatedEventListener {
         SimpleMailMessage email = new SimpleMailMessage();
         email.setSubject("Stock");
         email.setText("New product arrived: "+event.getProduct().getProductName());
-        List<String> em = getEmails();
+        List<String> em = getEmails(event.getProduct().getCategory());
         for(String mail : em){
             email.setTo(mail);
             mailSender.send(email);

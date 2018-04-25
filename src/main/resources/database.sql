@@ -48,3 +48,17 @@ CREATE TABLE categories(
 );
 ---------------------------------------------
 DROP TABLE categories;
+
+SELECT users.email
+FROM users
+INNER JOIN categories ON users.id = categories.user_id
+WHERE clothes = TRUE AND users.id > 10;
+--------------------------------------------------
+CREATE TABLE category_name(
+  id SERIAL PRIMARY KEY,
+  category VARCHAR(255) NOT NULL
+);
+
+-----------------------------------------------------
+SELECT  * FROM  categories WHERE categories.user_id = 150;
+-----------------------------------------------------

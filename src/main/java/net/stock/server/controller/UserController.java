@@ -83,6 +83,10 @@ public class UserController {
         return "table";
     }
 
+    @RequestMapping(value = "/test", method = RequestMethod.GET)
+    public String test(){
+        return "test";
+    }
     @RequestMapping(value = "/user", method = RequestMethod.GET)
     public String userprof(Model model, Principal principal){
         if(principal != null){
@@ -103,5 +107,9 @@ public class UserController {
 
     private User getUser(String username){
         return userService.findByUsername(username);
+    }
+
+    private  Category getCategoty(long id){
+        return categoryService.getByUserId(id);
     }
 }

@@ -24,6 +24,8 @@
 
 
 <mvc:resources mapping="/resources/**" location="/resources/"/>
+
+
    <bean id="JacksonObjectMapper" class="com.fasterxml.jackson.databind.ObjectMapper" />
     <bean id="messageSource" class="org.springframework.context.support.ReloadableResourceBundleMessageSource">
         <property name="basenames">

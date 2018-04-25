@@ -23,6 +23,7 @@ public class Category {
     @Column(name = "user_id", nullable = false)
     private long userId;
 
+
     public long getId() {
         return id;
     }

@@ -33,9 +33,6 @@ INSERT INTO roles VALUES (1, 'ROLE_USER');
 INSERT INTO roles VALUES (2, 'ROLE_ADMIN');
 
 INSERT INTO user_roles VALUES (1, 2);
-ALTER TABLE users
-ADD COLUMN email VARCHAR(255) NOT NULL ;
-
 ------------------------------------
 SELECT email FROM users WHERE id > 10;
 -------------------------------------
@@ -51,3 +48,13 @@ CREATE TABLE categories(
 );
 ---------------------------------------------
 DROP TABLE categories;
+
+SELECT users.email
+FROM users
+INNER JOIN categories ON users.id = categories.user_id
+WHERE clothes = TRUE AND users.id > 10;
+--------------------------------------------------
+CREATE TABLE category_name(
+  id SERIAL PRIMARY KEY,
+  category VARCHAR(255) NOT NULL
+);

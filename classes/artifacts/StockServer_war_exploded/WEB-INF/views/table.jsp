@@ -10,12 +10,19 @@
 <html>
 <head>
     <title>Table</title>
-    <link href="${contextPath}/resources/css/bootstrap.min.css" rel="stylesheet">
-    <script src="${contextPath}/resources/js/jquery.cookie.js"></script>
+    <link rel="stylesheet" href="${contextPath}/resources/css/table.css">
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.16/css/dataTables.bootstrap4.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.0.0/css/bootstrap.css">
+    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+    <script src="https://cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.10.16/js/dataTables.bootstrap4.min.js"></script>
     <meta name="_csrf" th:content="${_csrf.token}"/>
 </head>
 <body>
-<table class="table table-hover" id  = "myTable">
+
+<%--<table data-search="true"
+        class="table table-hover" id  = "myTable">
     <thead>
     <tr>
         <th>ID</th>
@@ -28,46 +35,118 @@
     <tbody>
 
     </tbody>
+</table>--%>
+<table id="tableClient" class="table table-bordered table-striped">
+    <thead>
+    <tr>
+        <th data-field="id">Id</th>
+        <th class="" data-field="productName">Name</th>
+        <th class="" data-field="amount">Amount</th>
+        <th class="" data-field="dateArrival">Date</th>
+        <th class="" data-field="category">Category</th>
+        <th class="" >Delete</th>
+
+    </tr>
+    </thead>
 </table>
+<div class="container">
+    <nav aria-label="Page navigation">
+    <ul class="pagination" id="pagination"></ul>
+</nav>
+</div>
+
 <div>
+    <form>
+        <div class="form-row">
+            <div class="form-group col-md-3">
+                <label for="product">Product</label>
+        <input  type="text" id="product" class="form-control"/>
+            </div>
+            <div class="form-group col-md-3">
+                <label for="amount">Amount</label>
+        <input  type="number" id="amount" class="form-control"/>
+            </div>
+            <div class="form-group col-md-3">
+                <label for="amount">Date</label>
+        <input  type="date" id="date" class="form-control" />
+            </div>
+            <div class="form-group col-md-3">
+                <label for="categories">Category</label>
+        <select class="custom-select form-control" id="categories">
 
-        <input  type="text" id="product" value="Product" />
-        <input  type="number" id="amount"  />
-        <input  type="date" id="date" />
-    <select id="categories">
-        <option value="food">Food</option>
-        <option value="house_hold">House hold</option>
-        <option value="clothes">Clothes</option>
-        <option value="appliances">Appliances</option>
-    </select>
-        </br>
-        <input type="button" id="addBtn" value="Add"/>
-        </br>
-        <input type="number" id="id"/>
+            <option value="food">Food</option>
+            <option value="house_hold">House hold</option>
+            <option value="clothes">Clothes</option>
+            <option value="appliances">Appliances</option>
+        </select>
+            </div>
 
-        <input type="button" id="delBtn" value="Delete"/>
+        <input type="button" id="addBtn" value="Add" class="btn btn-primary" />
+        </div>
+    </form>
 
 </div>
 
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.js"></script>
-<script src="${contextPath}/resources/js/bootstrap.min.js"></script>
+
+
 <script>
     $(document).ready(function () {
-        const url = 'http://localhost:8080/products'
-        $.getJSON(url,
-            function (json) {
-                console.log(json)
-                for (var i = 0; i < json.length; i++) {
-                    var date =  new Date(json[i].dateArrival);
-                    $('table').append("<tr>" +
-                        "<td>" + json[i].id  + "</td>" +
-                        "<td>" + json[i].productName + "</td>" +
-                        "<td>" + json[i].amount + "</td>" +
-                        "<td>" + date + "</td>" +
-                        "<td>" + json[i].category + "</td>" +
-                        "</tr>");
+        const url = 'http://localhost:8080/products';
+        var tableClient = $('#tableClient').DataTable({
+            "autoWidth": false,
+
+            "columnDefs": [
+                {"targets": [ 0 ],
+                    "className" : "id"
+
                 }
-            });
+            ],
+            "ajax": {
+                "url": "http://localhost:8080/products",
+                "type": "GET",
+                "success" :  function(data){
+                    $.each(data, function(ind, obj){
+
+                        tableClient.row.add([
+                            obj.id,
+                            obj.productName,
+                            obj.amount,
+
+                            new Date( obj.dateArrival).toDateString(),
+                            obj.category,
+                            "<input type='image' src='../../resources/images/clear.svg' id='delBtn1'/>"
+                        ]).draw();
+                    });
+                }
+            },
+        });
+       /* $('#myTable').dataTable();
+        const url = 'http://localhost:8080/products';
+        var tp;
+         $.getJSON(url+"?page="+0+"&size=10",function (json) {
+            tp =json.totalPages;
+             console.log(tp);
+        });
+
+        function getj(p) {
+             $.getJSON(url+"?page="+p+"&size=10",
+                function (json) {
+                    $('table tr').remove();
+                    for (let i = 0; i < json["content"].length; i++) {
+                        let date =  new Date(json["content"][i].dateArrival);
+                        let id = json["content"][i].id;
+                        $('table').append("<tr>" +
+                            "<td class='id'>" + id  + "</td>" +
+                            "<td>" + json["content"][i].productName + "</td>" +
+                            "<td>" + json["content"][i].amount + "</td>" +
+                            "<td>" + date + "</td>" +
+                            "<td>" + json["content"][i].category + "</td>" +
+                            "<td>" +"<input type='image' src='../../resources/images/clear.svg' id='delBtn1'/>"+"</td>" +
+                            "</tr>");
+                    }
+                });
+        }*/
+
         function formToJSON() {
             return JSON.stringify({
                 "productName": $('#product').val(),
@@ -76,6 +155,10 @@
                 "category" : $('#categories').val()
             });
         }
+
+
+
+
         $('#addBtn').click(function () {
             console.log('addProduct');
             $.ajax({
@@ -86,7 +169,6 @@
                 success: function(data, textStatus, jqXHR){
                     alert('Product added successfully');
                     location.reload();
-
                 },
                 error: function(jqXHR, textStatus, errorThrown){
                     alert('addProduct error: ' + textStatus);
@@ -94,15 +176,47 @@
             });
         });
         $('#delBtn').click(function () {
-            var id = $('#id').val();
+            let id = $('#id').val();
             $.ajax({
                 type: 'DELETE',
                 url: url+"/"+id,
-
                 success: function(data, textStatus, jqXHR){
                     alert('Product deleted successfully');
                     location.reload();
-
+                },
+                error: function(jqXHR, textStatus, errorThrown){
+                    alert('Delete product error: ' + textStatus);
+                }
+            });
+        });
+        var b = 1;
+     /*   $.getJSON(url+"?page=0&size=10",function (json) {
+            b =  json.totalPages});
+        $(function () {
+            window.pagObj = $('#pagination').twbsPagination({
+                totalPages: b+1,
+                visiblePages: 10,
+                onPageClick: function (event, page) {
+                    p = page-1;
+                    console.log("dsada"+tp);
+                    console.log(p);
+                    getj(p);
+                }
+            }).on('page', function (event, page) {
+                p = page-1;
+                console.log(p);
+                getj(p);
+            });
+        });*/
+        $('body').on("click","#delBtn1",function () {
+            let $item = $(this).closest("tr")
+                .find(".id").text();
+            $.ajax({
+                type: 'DELETE',
+                url: "http://localhost:8080/products/"+$item,
+                success: function(data, textStatus, jqXHR){
+                    alert('Product deleted successfully');
+                    location.reload();
                 },
                 error: function(jqXHR, textStatus, errorThrown){
                     alert('Delete product error: ' + textStatus);
@@ -110,6 +224,8 @@
             });
         });
     });
+
+
 </script>
 </body>
 </html>
